@@ -1,7 +1,7 @@
 {
-  "name": "gio",
-  "version": "0.0.1",
-  "description": "A Commandline url shortener for github repos",
+  "name": "gio-cli",
+  "version": "0.1.0",
+  "description": "A Commandline url shortener for github urls",
   "main": "cli.js",
   "repository": "https://github.com/satyarohith/gio",
   "author": "Satya Rohith",
@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "chalk": "^2.4.1",
+    "clipboardy": "^1.2.3",
     "curl-request": "^1.1.1",
     "load-json-file": "^5.0.0"
   }
