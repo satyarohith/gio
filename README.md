@@ -40,4 +40,13 @@ $ gio github-link
 ```
 When run, `gio` uses first parameter as base url and generates a `git.io/<random>` link.
 
+## Built with
 
+- [chalk](https://github.com/chalk/chalk) - Terminal string styling done right
+- [load-json-file](https://github.com/sindresorhus/load-json-file) - Read and parse a JSON file
+- [clipboardy](https://github.com/sindresorhus/clipboardy) - Access the system clipboard
+- [curl-request](https://github.com/do-web/curl-request) - cURL wrapper
+
+## License
+
+MIT © [Satya Rohith](https://satya.tech)
