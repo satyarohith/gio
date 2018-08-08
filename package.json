@@ -9,6 +9,15 @@
   "bin": {
     "gio": "./cli.js"
   },
+  "keywords": [
+    "cli",
+    "url-shortener",
+    "github-url-shortener",
+    "git.io",
+    "github",
+    "gio",
+    "gio-cli"
+  ],
   "dependencies": {
     "chalk": "^2.4.1",
     "clipboardy": "^1.2.3",
