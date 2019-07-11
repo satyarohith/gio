@@ -51,4 +51,4 @@ When run, `gio` uses first parameter as base url and generates a `git.io/<random
 
 ## License
 
-MIT © [Satya Rohith](https://satya.tech)
+MIT © [Satya Rohith](https://satyarohith.com)
