@@ -1,5 +1,5 @@
 # 🔗 gio
-> A Command-line url shortener for github urls.
+> A handy CLI tool to shorten github.com links.
 
 ## Installation
 
