@@ -1,12 +1,13 @@
 {
   "name": "gio-cli",
   "version": "0.1.0",
-  "description": "A Commandline url shortener for github urls",
+  "description": "A Command-line url shortener for github urls",
   "main": "cli.js",
   "repository": "https://github.com/satyarohith/gio",
   "author": "Satya Rohith",
   "license": "MIT",
   "bin": {
+    "gi": "./cli.js",
     "gio": "./cli.js"
   },
   "keywords": [
@@ -15,13 +16,14 @@
     "github-url-shortener",
     "git.io",
     "github",
+    "gi",
     "gio",
     "gio-cli"
   ],
   "dependencies": {
     "chalk": "^2.4.1",
     "clipboardy": "^1.2.3",
-    "curl-request": "^1.1.1",
-    "load-json-file": "^5.0.0"
+    "load-json-file": "^5.0.0",
+    "request": "^2.88.0"
   }
 }

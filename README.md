@@ -1,6 +1,6 @@
 # 🔗 gio
+> A Command-line url shortener for github urls.
 
-> gio is in development
 ## Installation
 
 Install [Nodejs](https://nodejs.org) & then
@@ -9,6 +9,8 @@ npm i -g gio-cli
 ```
 
 ## Usage
+
+> Note: If your machine has `gio` reserved, you can also access this tool with `gi`.
 
 ### If you are in a directory which has `package.json` file.
  ```
@@ -42,10 +44,10 @@ When run, `gio` uses first parameter as base url and generates a `git.io/<random
 
 ## Built with
 
-- [chalk](https://github.com/chalk/chalk) - Terminal string styling done right
-- [load-json-file](https://github.com/sindresorhus/load-json-file) - Read and parse a JSON file
-- [clipboardy](https://github.com/sindresorhus/clipboardy) - Access the system clipboard
-- [curl-request](https://github.com/do-web/curl-request) - cURL wrapper
+- [chalk](https://github.com/chalk/chalk) - Terminal string styling done right.
+- [load-json-file](https://github.com/sindresorhus/load-json-file) - Read and parse a JSON file.
+- [clipboardy](https://github.com/sindresorhus/clipboardy) - Access the system clipboard.
+- [request](https://github.com/request/request) - Simplified HTTP request client.
 
 ## License
 
