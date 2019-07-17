@@ -1,84 +1,80 @@
 #!/usr/bin/env node
 'use strict';
-
-const path = require('path');
-const loadJSON = require('load-json-file');
 const chalk = require('chalk');
 const clipboardy = require('clipboardy');
 const request = require('request');
 
-// TODO: check whether the dir has package.json file
-const packageFile = path.normalize(`${process.cwd()}/package.json`);
-const json = loadJSON.sync(packageFile);
-let repositoryUrl = json.repository;
-let packageName = json.name;
-
 // process.argv has two values by default so slice them
 let args = process.argv.slice(2);
 
-// read clipboard
-const clipboard = clipboardy.readSync();
+if (args[0] === '--help' || args[0] === '-h') {
+  console.log(`To shorten a GitHub URL, just run:
+$ gio <github-link>
+It outputs a git.io URL.
 
-let clipboardUrl = '';
-// check if clipboard has a github link
-if (clipboard.includes('github.com')) {
-  clipboardUrl = clipboard;
+To get a custom short link, for example, to shorten https://github.com/satyarohith/shark to git.io/sharkcli, run as follows:
+$ gio https://github.com/satyarohith/shark sharkcli
+
+
+If your clipboard has a github.com URL.
+
+To shorten the copied URL, run:
+$ gio
+
+To get a custom short link for the copied URL, run:
+$ gio <code>
+`);
+  process.exit();
 }
+
+if (args[0] === '--version' || args[0] === '-v') {
+  console.log(require('./package.json').version);
+  console.log('node', process.version);
+  process.exit();
+}
+
+const clipboard = clipboardy.readSync();
 
 const generateRequestBody = () => {
   let requestBody = {
     url: '',
     code: ''
   };
-  if (args.length > 0 && !clipboardUrl) {
-    // gio githublink
-    if (args[0].includes('https://github.com') && !args[1]) {
+
+  if (args.length === 2) {
+    // gio githuburl code OR gio code githuburl
+    requestBody.url = args[0].includes('github.com') ? args[0] : args[1];
+    requestBody.code = args[1].includes('github.com') ? args[0] : args[1];
+  } else if (args.length === 1) {
+    if (args[0].includes('github.com')) {
       requestBody.url = args[0];
       delete requestBody.code;
-      return requestBody;
-    } else if (args[0].includes('https://github.com') && args[1]) {
-      // gio githublink code
-      requestBody.url = args[0];
-      requestBody.code = args[1];
-      return requestBody;
-    } else if (args[0] && !args[1]) {
-      requestBody.url = repositoryUrl;
+    } else {
+      const clipboard = clipboardy.readSync();
+      if (clipboard.includes('github.com')) requestBody.url = clipboard;
       requestBody.code = args[0];
-      return requestBody;
     }
-  } else if (args[0] && !args[1] && clipboardUrl) {
-    // gio code (clipboard)
-    requestBody.url = clipboardUrl;
-    requestBody.code = args[0];
-    return requestBody;
-  } else if (clipboardUrl && !args[0]) {
-    // gio (clipboardUrl)
-    requestBody.url = clipboardUrl;
+  } else if (clipboard.includes('github.com')) {
+    requestBody.url = clipboard;
     delete requestBody.code;
-    return requestBody;
-  } else {
-    // gio
-    requestBody.url = repositoryUrl;
-    requestBody.code = packageName;
-    return requestBody;
   }
+
+  return requestBody;
 };
 
-const createUrl = requestBody => {
+const createUrlAndLog = requestBody => {
   request.post({
     url: 'https://git.io',
     formData: requestBody,
-  }, (err, { headers }, body) => {
+  }, (err, {headers}, body) => {
     if (err) {
       console.log(
-        'Error occured while creating url:',
+        'Error occured while shortening the URL:',
         chalk.red(err)
       );
-      process.exit();
+      process.exit(1);
     }
-
-    // copy url to clipboard
-    clipboardy.writeSync(headers.location);
+    clipboardy.writeSync(String(headers.location));
     console.log(
       `${chalk.green.underline.bold(headers.location)} (${chalk.gray(
         'copied to clipboard!'
@@ -89,8 +85,9 @@ const createUrl = requestBody => {
 };
 
 const requestBody = generateRequestBody();
-if (requestBody.url.includes('github.com')) {
-  createUrl(requestBody);
+
+if (requestBody.url.includes('github.com') === true) {
+  createUrlAndLog(requestBody);
 } else {
-  console.error(chalk.red('Make sure you are using a github.com URL'));
+  console.error(('Please pass a GitHub URL as first argument or have it in your clipboard.'));
 }
