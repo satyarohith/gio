@@ -1,10 +1,11 @@
 # 🔗 gio
-> A handy CLI tool to shorten github.com links.
+> A handy CLI tool to shorten github.com URLs.
 
 ## Installation
 
 Install [Nodejs](https://nodejs.org) & then
-```
+
+```sh
 npm i -g gio-cli
 ```
 
@@ -12,40 +13,32 @@ npm i -g gio-cli
 
 > Note: If your machine has `gio` reserved, you can also access this tool with `gi`.
 
-### If you are in a directory which has `package.json` file.
- ```
- $ gio
- ```
-When run, `gio` uses `repository` field as base url and `name` field to generate a `git.io/<name>` link.
-
-
-### Global
-#### If you have copied a github link to clipboard.
+To shorten a GitHub URL, just run:
+```sh
+$ gio <github-link>
 ```
+It outputs a git.io URL.
+
+To get a custom short link, for example, to shorten [`https://github.com/satyarohith/shark`]() to [`git.io/sharkcli`](), run as follows:
+```sh
+$ gio https://github.com/satyarohith/shark sharkcli
+```
+
+#### If your clipboard has a `github.com` URL.
+
+To shorten the copied URL, run:
+```sh
 $ gio
 ```
-When run, `gio` uses copied url as base url and generates a `git.io/<random>` link.
 
+To get a custom short link for the copied URL, run:
+```sh
+$ gio <code>
 ```
-$ gio desired-link
-```
-When run, `gio` uses copied url as base url and first parameter as desired link.  `git.io/<desired-link>` link.
-
-#### You don't have any github link in the clipboard.
-```
-$ gio github-link desired-link
-```
-When run, `gio` uses first parameter as base url and second parameter as desired link.
-
-```
-$ gio github-link
-```
-When run, `gio` uses first parameter as base url and generates a `git.io/<random>` link.
 
 ## Built with
 
 - [chalk](https://github.com/chalk/chalk) - Terminal string styling done right.
-- [load-json-file](https://github.com/sindresorhus/load-json-file) - Read and parse a JSON file.
 - [clipboardy](https://github.com/sindresorhus/clipboardy) - Access the system clipboard.
 - [request](https://github.com/request/request) - Simplified HTTP request client.
 
