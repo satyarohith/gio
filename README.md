@@ -15,11 +15,11 @@ npm i -g gio-cli
 
 To shorten a GitHub URL, just run:
 ```sh
-$ gio <github-link>
+$ gio <githuburl>
 ```
 It outputs a git.io URL.
 
-To get a custom short link, for example, to shorten [`https://github.com/satyarohith/shark`]() to [`git.io/sharkcli`](), run as follows:
+To get a custom short link, for example, to shorten [`https://github.com/satyarohith/shark`](https://github.com/satyarohith/shark) to [`git.io/sharkcli`](git.io/sharkcli), run as follows:
 ```sh
 $ gio https://github.com/satyarohith/shark sharkcli
 ```
