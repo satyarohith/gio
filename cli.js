@@ -4,8 +4,8 @@ const chalk = require('chalk');
 const clipboardy = require('clipboardy');
 const request = require('request');
 
-// process.argv has two values by default so slice them
-let args = process.argv.slice(2);
+// Slice the first two values since we don't need them.
+const args = process.argv.slice(2);
 
 if (args[0] === '--help' || args[0] === '-h') {
   console.log(`To shorten a GitHub URL, just run:
@@ -27,6 +27,14 @@ $ gio <code>
   process.exit();
 }
 
+const isGitHubURL = URL => {
+  if (URL.includes('github.com') || URL.includes('githubusercontent.com')) {
+    return true;
+  }
+
+  return false;
+};
+
 if (args[0] === '--version' || args[0] === '-v') {
   console.log(require('./package.json').version);
   console.log('node', process.version);
@@ -36,25 +44,27 @@ if (args[0] === '--version' || args[0] === '-v') {
 const clipboard = clipboardy.readSync();
 
 const generateRequestBody = () => {
-  let requestBody = {
+  const requestBody = {
     url: '',
     code: ''
   };
 
   if (args.length === 2) {
-    // gio githuburl code OR gio code githuburl
-    requestBody.url = args[0].includes('github.com') ? args[0] : args[1];
-    requestBody.code = args[1].includes('github.com') ? args[0] : args[1];
+    // Commands: gio githuburl code OR gio code githuburl
+    requestBody.url = isGitHubURL(args[0]) ? args[0] : args[1];
+    requestBody.code = isGitHubURL(args[1]) ? args[0] : args[1];
   } else if (args.length === 1) {
-    if (args[0].includes('github.com')) {
+    if (isGitHubURL(args[0])) {
       requestBody.url = args[0];
       delete requestBody.code;
     } else {
-      const clipboard = clipboardy.readSync();
-      if (clipboard.includes('github.com')) requestBody.url = clipboard;
+      if (isGitHubURL(clipboard)) {
+        requestBody.url = clipboard;
+      }
+
       requestBody.code = args[0];
     }
-  } else if (clipboard.includes('github.com')) {
+  } else if (isGitHubURL(clipboard)) {
     requestBody.url = clipboard;
     delete requestBody.code;
   }
@@ -63,31 +73,34 @@ const generateRequestBody = () => {
 };
 
 const createUrlAndLog = requestBody => {
-  request.post({
-    url: 'https://git.io',
-    formData: requestBody,
-  }, (err, {headers}, body) => {
-    if (err) {
+  request.post(
+    {
+      url: 'https://git.io',
+      formData: requestBody
+    },
+    (err, {headers}, body) => {
+      if (err) {
+        console.log('Error occured while shortening the URL:', chalk.red(err));
+        process.exit(1);
+      }
+
+      clipboardy.writeSync(String(headers.location));
       console.log(
-        'Error occured while shortening the URL:',
-        chalk.red(err)
+        `${chalk.green.underline.bold(headers.location)} (${chalk.gray(
+          'copied to clipboard!'
+        )})`
       );
-      process.exit(1);
+      console.log(chalk.gray(body));
     }
-    clipboardy.writeSync(String(headers.location));
-    console.log(
-      `${chalk.green.underline.bold(headers.location)} (${chalk.gray(
-        'copied to clipboard!'
-      )})`
-    );
-    console.log(chalk.gray(body));
-  })
+  );
 };
 
 const requestBody = generateRequestBody();
 
-if (requestBody.url.includes('github.com') === true) {
+if (isGitHubURL(requestBody.url) === true) {
   createUrlAndLog(requestBody);
 } else {
-  console.error(('Please pass a GitHub URL as first argument or have it in your clipboard.'));
+  console.error(
+    'Please pass a GitHub URL as first argument or have it in your clipboard.'
+  );
 }
