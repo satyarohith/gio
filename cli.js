@@ -9,20 +9,19 @@ const args = process.argv.slice(2);
 
 if (args[0] === '--help' || args[0] === '-h') {
   console.log(`To shorten a GitHub URL, just run:
-$ gio <github-link>
+$ gi <github-link>
 It outputs a git.io URL.
 
 To get a custom short link, for example, to shorten https://github.com/satyarohith/shark to git.io/sharkcli, run as follows:
-$ gio https://github.com/satyarohith/shark sharkcli
-
+$ gi https://github.com/satyarohith/shark sharkcli
 
 If your clipboard has a github.com URL.
 
 To shorten the copied URL, run:
-$ gio
+$ gi
 
 To get a custom short link for the copied URL, run:
-$ gio <code>
+$ gi <code>
 `);
   process.exit();
 }
@@ -50,7 +49,7 @@ const generateRequestBody = () => {
   };
 
   if (args.length === 2) {
-    // Commands: gio githuburl code OR gio code githuburl
+    // Commands: gi githuburl code OR gi code githuburl
     requestBody.url = isGitHubURL(args[0]) ? args[0] : args[1];
     requestBody.code = isGitHubURL(args[1]) ? args[0] : args[1];
   } else if (args.length === 1) {
