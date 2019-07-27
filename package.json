@@ -1,6 +1,6 @@
 {
   "name": "gio-cli",
-  "version": "0.10.0",
+  "version": "1.0.0",
   "description": "A Command-line url shortener for github urls",
   "main": "cli.js",
   "repository": "https://github.com/satyarohith/gio",
