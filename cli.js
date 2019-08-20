@@ -83,12 +83,14 @@ const createUrlAndLog = requestBody => {
         process.exit(1);
       }
 
-      clipboardy.writeSync(String(headers.location));
-      console.log(
-        `${chalk.green.underline.bold(headers.location)} (${chalk.gray(
-          'copied to clipboard!'
-        )})`
-      );
+      if (typeof headers.location !== 'undefined') {
+        clipboardy.writeSync(String(headers.location));
+        console.log(
+          `${chalk.green.underline.bold(headers.location)} (${chalk.gray(
+            'copied to clipboard!'
+          )})`
+        );
+      }
       console.log(chalk.gray(body));
     }
   );
