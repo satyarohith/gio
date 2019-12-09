@@ -17,7 +17,7 @@ $ gi <githuburl>
 ```
 It outputs a git.io URL.
 
-To get a custom short link, for example, to shorten [`https://github.com/satyarohith/shark`](https://github.com/satyarohith/shark) to [`git.io/sharkcli`](git.io/sharkcli), run:
+To get a custom short link, for example, to shorten [`https://github.com/satyarohith/shark`](https://github.com/satyarohith/shark) to [`git.io/sharkcli`](https://git.io/sharkcli), run:
 ```sh
 $ gi https://github.com/satyarohith/shark sharkcli
 ```
